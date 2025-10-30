@@ -1,0 +1,38 @@
+<div class="container">
+  <h1>🪶 The Poet</h1>
+  <p class="subtitle">
+    Search poems by <strong>author</strong>, <strong>title</strong>, or
+    <strong>both</strong> via PoetryDB.
+  </p>
+
+  <div class="search-row">
+    <input
+      [(ngModel)]="query"
+      placeholder="e.g., Shakespeare or Ozymandias"
+      aria-label="Search query"
+    />
+    <select [(ngModel)]="searchType" aria-label="Search type">
+      <option value="author">Author</option>
+      <option value="title">Title</option>
+      <option value="both">Both</option>
+    </select>
+    <button (click)="onSearch()">Search</button>
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading…</div>
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+  <div *ngIf="!loading && poems.length > 0" class="results">
+    <div class="count">{{ poems.length }} result(s)</div>
+
+    <div
+      class="poem-card"
+      *ngFor="let poem of poems; trackBy: trackByKey"
+      role="article"
+    >
+      <h3 class="title">{{ poem.title }}</h3>
+      <div class="meta">by {{ poem.author }}</div>
+      <pre class="text">{{ poem.lines.join('\n') }}</pre>
+    </div>
+  </div>
+</div>
